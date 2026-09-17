@@ -1,19 +1,328 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:fillViewport="true"
+    android:background="#17151B">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:orientation="vertical"
+        android:padding="20dp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <!-- HEADER -->
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Smart Pantry"
+            android:textSize="34sp"
+            android:textStyle="bold"
+            android:textColor="#E8DFFF"
+            android:gravity="center"
+            android:layout_marginTop="14dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Turn your pantry ingredients into delicious meals"
+            android:textSize="15sp"
+            android:textColor="#BDB6C8"
+            android:gravity="center"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="26dp" />
+
+        <!-- PANTRY SUMMARY -->
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="PANTRY SUMMARY"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:textColor="#E8DFFF"
+            android:gravity="center"
+            android:layout_marginBottom="12dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="18dp">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="112dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="5dp"
+                app:cardCornerRadius="18dp"
+                app:cardElevation="4dp"
+                app:cardBackgroundColor="#24212A">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:padding="8dp">
+
+                    <TextView
+                        android:id="@+id/tvPantryCount"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textSize="25sp"
+                        android:textStyle="bold"
+                        android:textColor="#CBB6FF"
+                        android:gravity="center"
+                        android:singleLine="true" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Ingredients"
+                        android:textSize="11sp"
+                        android:textColor="#BDB6C8"
+                        android:gravity="center"
+                        android:singleLine="true"
+                        android:layout_marginTop="5dp" />
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="112dp"
+                android:layout_weight="1"
+                android:layout_marginStart="3dp"
+                android:layout_marginEnd="3dp"
+                app:cardCornerRadius="18dp"
+                app:cardElevation="4dp"
+                app:cardBackgroundColor="#24212A">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:padding="8dp">
+
+                    <TextView
+                        android:id="@+id/tvExpiringCount"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textSize="25sp"
+                        android:textStyle="bold"
+                        android:textColor="#FFB74D"
+                        android:gravity="center"
+                        android:singleLine="true" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Expiring"
+                        android:textSize="11sp"
+                        android:textColor="#BDB6C8"
+                        android:gravity="center"
+                        android:singleLine="true"
+                        android:layout_marginTop="5dp" />
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="112dp"
+                android:layout_weight="1"
+                android:layout_marginStart="5dp"
+                app:cardCornerRadius="18dp"
+                app:cardElevation="4dp"
+                app:cardBackgroundColor="#24212A">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:padding="8dp">
+
+                    <TextView
+                        android:id="@+id/tvExpiredCount"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textSize="25sp"
+                        android:textStyle="bold"
+                        android:textColor="#EF5350"
+                        android:gravity="center"
+                        android:singleLine="true" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Expired"
+                        android:textSize="11sp"
+                        android:textColor="#BDB6C8"
+                        android:gravity="center"
+                        android:singleLine="true"
+                        android:layout_marginTop="5dp" />
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+
+        <!-- RECIPES YOU CAN MAKE -->
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="22dp"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="5dp"
+            app:cardBackgroundColor="#30283D">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="18dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="RECIPES YOU CAN MAKE"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="#E8DFFF"
+                    android:gravity="center" />
+
+                <TextView
+                    android:id="@+id/tvMatchingCount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="0 recipes available"
+                    android:textSize="15sp"
+                    android:textColor="#CBB6FF"
+                    android:gravity="center"
+                    android:layout_marginTop="8dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Recipes are matched using the ingredients and quantities in your pantry."
+                    android:textSize="12sp"
+                    android:textColor="#BDB6C8"
+                    android:gravity="center"
+                    android:lineSpacingExtra="2dp"
+                    android:layout_marginTop="6dp" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <!-- QUICK ACCESS -->
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="QUICK ACCESS"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:textColor="#E8DFFF"
+            android:gravity="center"
+            android:layout_marginBottom="14dp" />
+
+        <!-- ROW 1 -->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="12dp">
+
+            <Button
+                android:id="@+id/btnPantry"
+                android:layout_width="0dp"
+                android:layout_height="62dp"
+                android:layout_weight="1"
+                android:text="MY PANTRY"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:textColor="#211B2A"
+                android:backgroundTint="#CBB6FF"
+                android:layout_marginEnd="6dp" />
+
+            <Button
+                android:id="@+id/btnRecipes"
+                android:layout_width="0dp"
+                android:layout_height="62dp"
+                android:layout_weight="1"
+                android:text="ALL RECIPES"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:textColor="#211B2A"
+                android:backgroundTint="#CBB6FF"
+                android:layout_marginStart="6dp" />
+
+        </LinearLayout>
+
+        <!-- ROW 2 -->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="12dp">
+
+            <Button
+                android:id="@+id/btnAddIngredient"
+                android:layout_width="0dp"
+                android:layout_height="62dp"
+                android:layout_weight="1"
+                android:text="ADD INGREDIENT"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:textColor="#211B2A"
+                android:backgroundTint="#CBB6FF"
+                android:layout_marginEnd="6dp" />
+
+            <Button
+                android:id="@+id/btnFavorites"
+                android:layout_width="0dp"
+                android:layout_height="62dp"
+                android:layout_weight="1"
+                android:text="FAVOURITES"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:textColor="#211B2A"
+                android:backgroundTint="#CBB6FF"
+                android:layout_marginStart="6dp" />
+
+        </LinearLayout>
+
+        <!-- RECIPES I CAN MAKE -->
+
+        <Button
+            android:id="@+id/btnMatchingRecipes"
+            android:layout_width="match_parent"
+            android:layout_height="62dp"
+            android:text="RECIPES I CAN MAKE"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="#211B2A"
+            android:backgroundTint="#CBB6FF"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="20dp" />
+
+    </LinearLayout>
+
+</ScrollView>

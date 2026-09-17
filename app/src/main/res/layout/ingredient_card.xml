@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <androidx.cardview.widget.CardView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="15dp"
+        app:cardElevation="4dp"
+        app:cardBackgroundColor="#30264F">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="11dp">
+
+            <!-- INGREDIENT NAME -->
+
+            <TextView
+                android:id="@+id/tvIngredientName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Minced Beef"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                android:textColor="#F0E9FF"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:layout_marginBottom="4dp" />
+
+            <!-- QUANTITY -->
+
+            <TextView
+                android:id="@+id/tvIngredientQuantity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="500 g"
+                android:textSize="13sp"
+                android:textColor="#CBB6FF"
+                android:textStyle="bold"
+                android:layout_marginBottom="5dp" />
+
+            <!-- CATEGORY -->
+
+            <TextView
+                android:id="@+id/tvIngredientCategory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Meat"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:textColor="#211B2A"
+                android:background="#CBB6FF"
+                android:paddingStart="9dp"
+                android:paddingEnd="9dp"
+                android:paddingTop="3dp"
+                android:paddingBottom="3dp"
+                android:layout_marginBottom="8dp" />
+
+            <!-- DIVIDER -->
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#473C59"
+                android:layout_marginBottom="7dp" />
+
+            <!-- EXPIRY -->
+
+            <TextView
+                android:id="@+id/tvIngredientExpiry"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Expires: 2026-10-10"
+                android:textSize="11sp"
+                android:textColor="#BDB6C8"
+                android:layout_marginBottom="8dp" />
+
+            <!-- BUTTONS -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnEditIngredient"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:text="EDIT"
+                    android:textSize="10sp"
+                    android:textStyle="bold"
+                    android:textColor="#211B2A"
+                    android:backgroundTint="#CBB6FF"
+                    android:layout_marginEnd="4dp"
+                    android:minHeight="0dp"
+                    android:minWidth="0dp"
+                    android:padding="0dp" />
+
+                <Button
+                    android:id="@+id/btnDeleteIngredient"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_weight="1"
+                    android:text="DELETE"
+                    android:textSize="10sp"
+                    android:textStyle="bold"
+                    android:textColor="#211B2A"
+                    android:backgroundTint="#B9A9D9"
+                    android:layout_marginStart="4dp"
+                    android:minHeight="0dp"
+                    android:minWidth="0dp"
+                    android:padding="0dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <!-- KEEP ORIGINAL SPACE BETWEEN CARDS -->
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="18dp"
+        android:background="@android:color/transparent" />
+
+</LinearLayout>
