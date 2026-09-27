@@ -3,6 +3,7 @@ package com.lenny.smartpantrymanager;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -88,6 +89,8 @@ public class RecipesActivity extends AppCompatActivity {
         );
 
         spinnerCategory.setAdapter(categoryAdapter);
+
+        updateCountryFilterButtons();
 
         loadRecipes();
 
@@ -182,6 +185,7 @@ public class RecipesActivity extends AppCompatActivity {
 
             selectedCountry = "";
 
+            updateCountryFilterButtons();
             loadRecipes();
         });
 
@@ -189,6 +193,7 @@ public class RecipesActivity extends AppCompatActivity {
 
             selectedCountry = "South Africa";
 
+            updateCountryFilterButtons();
             loadRecipes();
         });
 
@@ -196,6 +201,7 @@ public class RecipesActivity extends AppCompatActivity {
 
             selectedCountry = "Zimbabwe";
 
+            updateCountryFilterButtons();
             loadRecipes();
         });
 
@@ -203,6 +209,7 @@ public class RecipesActivity extends AppCompatActivity {
 
             selectedCountry = "International";
 
+            updateCountryFilterButtons();
             loadRecipes();
         });
 
@@ -225,6 +232,53 @@ public class RecipesActivity extends AppCompatActivity {
                     }
                 }
         );
+    }
+
+    private void updateCountryFilterButtons() {
+
+        int selectedColor = Color.parseColor("#6B6575");
+        int normalColor = Color.parseColor("#CBB6FF");
+
+        btnAllRecipes.setBackgroundTintList(
+                android.content.res.ColorStateList.valueOf(normalColor)
+        );
+
+        btnSouthAfrica.setBackgroundTintList(
+                android.content.res.ColorStateList.valueOf(normalColor)
+        );
+
+        btnZimbabwe.setBackgroundTintList(
+                android.content.res.ColorStateList.valueOf(normalColor)
+        );
+
+        btnInternational.setBackgroundTintList(
+                android.content.res.ColorStateList.valueOf(normalColor)
+        );
+
+        if (selectedCountry.equals("")) {
+
+            btnAllRecipes.setBackgroundTintList(
+                    android.content.res.ColorStateList.valueOf(selectedColor)
+            );
+
+        } else if (selectedCountry.equals("South Africa")) {
+
+            btnSouthAfrica.setBackgroundTintList(
+                    android.content.res.ColorStateList.valueOf(selectedColor)
+            );
+
+        } else if (selectedCountry.equals("Zimbabwe")) {
+
+            btnZimbabwe.setBackgroundTintList(
+                    android.content.res.ColorStateList.valueOf(selectedColor)
+            );
+
+        } else if (selectedCountry.equals("International")) {
+
+            btnInternational.setBackgroundTintList(
+                    android.content.res.ColorStateList.valueOf(selectedColor)
+            );
+        }
     }
 
     private void loadRecipes() {
