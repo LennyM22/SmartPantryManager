@@ -66,6 +66,9 @@
             android:layout_height="88dp"
             android:layout_weight="1"
             android:layout_marginEnd="5dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
             app:cardCornerRadius="16dp"
             app:cardElevation="4dp"
             app:cardBackgroundColor="#24212A">
@@ -90,7 +93,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Total"
+                    android:text="Fresh"
                     android:textSize="11sp"
                     android:textColor="#BDB6C8"
                     android:gravity="center"
@@ -106,6 +109,9 @@
             android:layout_weight="1"
             android:layout_marginStart="3dp"
             android:layout_marginEnd="3dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
             app:cardCornerRadius="16dp"
             app:cardElevation="4dp"
             app:cardBackgroundColor="#24212A">
@@ -145,6 +151,9 @@
             android:layout_height="88dp"
             android:layout_weight="1"
             android:layout_marginStart="5dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
             app:cardCornerRadius="16dp"
             app:cardElevation="4dp"
             app:cardBackgroundColor="#24212A">

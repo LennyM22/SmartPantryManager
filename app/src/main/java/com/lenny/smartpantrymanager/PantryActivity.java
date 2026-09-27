@@ -1,6 +1,6 @@
 package com.lenny.smartpantrymanager;
 
-import android.content.Intent;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -8,7 +8,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.content.Context;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -42,6 +42,7 @@ public class PantryActivity extends AppCompatActivity {
     TextView tvExpiredIngredients;
 
     String selectedCategory = "All Categories";
+    String selectedExpiryFilter = "ALL";
 
     ArrayList<Integer> ingredientIds = new ArrayList<>();
     ArrayList<String> names = new ArrayList<>();
@@ -82,6 +83,48 @@ public class PantryActivity extends AppCompatActivity {
                 findViewById(R.id.tvExpiredIngredients);
 
         setupCategorySpinner();
+
+        tvTotalIngredients.setOnClickListener(v -> {
+
+            if (selectedExpiryFilter.equals("FRESH")) {
+
+                selectedExpiryFilter = "ALL";
+
+            } else {
+
+                selectedExpiryFilter = "FRESH";
+            }
+
+            loadIngredients();
+        });
+
+        tvExpiringSoon.setOnClickListener(v -> {
+
+            if (selectedExpiryFilter.equals("EXPIRING")) {
+
+                selectedExpiryFilter = "ALL";
+
+            } else {
+
+                selectedExpiryFilter = "EXPIRING";
+            }
+
+            loadIngredients();
+        });
+
+        tvExpiredIngredients.setOnClickListener(v -> {
+
+            if (selectedExpiryFilter.equals("EXPIRED")) {
+
+                selectedExpiryFilter = "ALL";
+
+            } else {
+
+                selectedExpiryFilter = "EXPIRED";
+            }
+
+            loadIngredients();
+        });
 
         btnPantrySearch.setOnClickListener(v -> {
 
@@ -161,11 +204,11 @@ public class PantryActivity extends AppCompatActivity {
         );
 
         spinnerPantryCategory.setOnItemSelectedListener(
-                new android.widget.AdapterView.OnItemSelectedListener() {
+                new AdapterView.OnItemSelectedListener() {
 
                     @Override
                     public void onItemSelected(
-                            android.widget.AdapterView<?> parent,
+                            AdapterView<?> parent,
                             View view,
                             int position,
                             long id) {
@@ -180,7 +223,7 @@ public class PantryActivity extends AppCompatActivity {
 
                     @Override
                     public void onNothingSelected(
-                            android.widget.AdapterView<?> parent) {
+                            AdapterView<?> parent) {
                     }
                 }
         );
@@ -241,7 +284,12 @@ public class PantryActivity extends AppCompatActivity {
                         .trim()
                         .toLowerCase();
 
-        String query;
+        StringBuilder query =
+                new StringBuilder(
+                        "SELECT id, name, quantity, unit, " +
+                                "category, expiry_date " +
+                                "FROM ingredients WHERE "
+                );
 
         ArrayList<String> argumentsList =
                 new ArrayList<>();
@@ -249,31 +297,28 @@ public class PantryActivity extends AppCompatActivity {
         if (selectedCategory.equals(
                 "All Categories")) {
 
-            query =
-                    "SELECT id, name, quantity, unit, " +
-                            "category, expiry_date " +
-                            "FROM ingredients " +
-                            "WHERE LOWER(name) LIKE ?";
-
-            argumentsList.add(
-                    "%" + searchText + "%"
+            query.append(
+                    "1 = 1 "
             );
 
         } else {
 
-            query =
-                    "SELECT id, name, quantity, unit, " +
-                            "category, expiry_date " +
-                            "FROM ingredients " +
-                            "WHERE category = ? " +
-                            "AND LOWER(name) LIKE ?";
-
-            argumentsList.add(selectedCategory);
+            query.append(
+                    "category = ? "
+            );
 
             argumentsList.add(
-                    "%" + searchText + "%"
+                    selectedCategory
             );
         }
+
+        query.append(
+                "AND LOWER(name) LIKE ? "
+        );
+
+        argumentsList.add(
+                "%" + searchText + "%"
+        );
 
         String[] arguments =
                 argumentsList.toArray(
@@ -282,25 +327,55 @@ public class PantryActivity extends AppCompatActivity {
 
         Cursor cursor =
                 db.rawQuery(
-                        query,
+                        query.toString(),
                         arguments
                 );
 
+        SimpleDateFormat dateFormat =
+                new SimpleDateFormat(
+                        "yyyy-MM-dd",
+                        Locale.getDefault()
+                );
+
+        dateFormat.setLenient(false);
+
+        Date today = new Date();
+
         while (cursor.moveToNext()) {
 
-            ingredientIds.add(
-                    cursor.getInt(0)
-            );
+            int id =
+                    cursor.getInt(0);
 
-            names.add(
-                    cursor.getString(1)
-            );
+            String name =
+                    cursor.getString(1);
 
             double quantity =
                     cursor.getDouble(2);
 
             String unit =
                     cursor.getString(3);
+
+            String category =
+                    cursor.getString(4);
+
+            String expiry =
+                    cursor.getString(5);
+
+            boolean includeIngredient =
+                    matchesExpiryFilter(
+                            expiry,
+                            dateFormat,
+                            today
+                    );
+
+            if (!includeIngredient) {
+
+                continue;
+            }
+
+            ingredientIds.add(id);
+
+            names.add(name);
 
             quantities.add(
                     "Quantity: "
@@ -311,11 +386,8 @@ public class PantryActivity extends AppCompatActivity {
 
             categories.add(
                     "Category: "
-                            + cursor.getString(4)
+                            + category
             );
-
-            String expiry =
-                    cursor.getString(5);
 
             if (expiry == null
                     || expiry.isEmpty()) {
@@ -347,9 +419,30 @@ public class PantryActivity extends AppCompatActivity {
 
             categories.add("");
 
-            expiryDates.add(
-                    "Try another search or category."
-            );
+            if (selectedExpiryFilter.equals("FRESH")) {
+
+                expiryDates.add(
+                        "No fresh ingredients found."
+                );
+
+            } else if (selectedExpiryFilter.equals("EXPIRING")) {
+
+                expiryDates.add(
+                        "No ingredients are expiring soon."
+                );
+
+            } else if (selectedExpiryFilter.equals("EXPIRED")) {
+
+                expiryDates.add(
+                        "No expired ingredients found."
+                );
+
+            } else {
+
+                expiryDates.add(
+                        "Try another search or category."
+                );
+            }
         }
 
         IngredientAdapter adapter =
@@ -365,6 +458,61 @@ public class PantryActivity extends AppCompatActivity {
         listViewIngredients.setAdapter(adapter);
     }
 
+    private boolean matchesExpiryFilter(
+            String expiryDateText,
+            SimpleDateFormat dateFormat,
+            Date today) {
+
+        if (selectedExpiryFilter.equals("ALL")) {
+
+            return true;
+        }
+
+        if (expiryDateText == null
+                || expiryDateText.isEmpty()) {
+
+            return selectedExpiryFilter.equals("FRESH");
+        }
+
+        try {
+
+            Date expiryDate =
+                    dateFormat.parse(
+                            expiryDateText
+                    );
+
+            if (expiryDate.before(today)) {
+
+                return selectedExpiryFilter.equals(
+                        "EXPIRED"
+                );
+            }
+
+            long difference =
+                    expiryDate.getTime()
+                            - today.getTime();
+
+            long daysRemaining =
+                    difference
+                            / (1000 * 60 * 60 * 24);
+
+            if (daysRemaining <= 3) {
+
+                return selectedExpiryFilter.equals(
+                        "EXPIRING"
+                );
+            }
+
+            return selectedExpiryFilter.equals(
+                    "FRESH"
+            );
+
+        } catch (ParseException e) {
+
+            return false;
+        }
+    }
+
     private void updateSummary(
             SQLiteDatabase db) {
 
@@ -375,6 +523,7 @@ public class PantryActivity extends AppCompatActivity {
                 );
 
         int total = 0;
+        int fresh = 0;
         int expiring = 0;
         int expired = 0;
 
@@ -395,15 +544,26 @@ public class PantryActivity extends AppCompatActivity {
             String expiryDateText =
                     cursor.getString(0);
 
-            if (expiryDateText != null
-                    && !expiryDateText.isEmpty()) {
+            if (expiryDateText == null
+                    || expiryDateText.isEmpty()) {
 
-                try {
+                fresh++;
 
-                    Date expiryDate =
-                            dateFormat.parse(
-                                    expiryDateText
-                            );
+                continue;
+            }
+
+            try {
+
+                Date expiryDate =
+                        dateFormat.parse(
+                                expiryDateText
+                        );
+
+                if (expiryDate.before(today)) {
+
+                    expired++;
+
+                } else {
 
                     long difference =
                             expiryDate.getTime()
@@ -413,17 +573,17 @@ public class PantryActivity extends AppCompatActivity {
                             difference
                                     / (1000 * 60 * 60 * 24);
 
-                    if (expiryDate.before(today)) {
-
-                        expired++;
-
-                    } else if (daysRemaining <= 3) {
+                    if (daysRemaining <= 3) {
 
                         expiring++;
-                    }
 
-                } catch (ParseException e) {
+                    } else {
+
+                        fresh++;
+                    }
                 }
+
+            } catch (ParseException e) {
             }
         }
 
@@ -434,7 +594,7 @@ public class PantryActivity extends AppCompatActivity {
         );
 
         tvTotalIngredients.setText(
-                String.valueOf(total)
+                String.valueOf(fresh)
         );
 
         tvExpiringSoon.setText(
